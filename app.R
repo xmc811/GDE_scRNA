@@ -40,7 +40,7 @@ server <- function(input, output, session) {
                                           justified = TRUE),
                         actionButton(
                             inputId = "data_start",
-                            label = "Upload",
+                            label = "Start",
                             icon = icon("bar-chart"),
                             style = "color: white; background-color: #0570b0;
                             float:right; margin-right: 5px;"),
@@ -53,13 +53,21 @@ server <- function(input, output, session) {
         
         if (input$data_source == "Example") {
             
-            read_csv("./large_data/metadata.csv")
+            readRDS("./data/scRNA_sample.rds")
             
-        } else if (input$count_source == "Upload") {
+        } else if (input$data_source == "Upload") {
             
-            read_csv(input$meta_input$datapath)
+            readRDS(input$scrna_upload$datapath)
             
-        } else {}
+        } else {
+            
+            readRDS(paste0(select_path, input$scrna_select))
+            
+        }
+    })
+    
+    output$object_info <- renderText({
+        paste0("Seurat Object Uploaded: ", ncol(scrna()), " cells")
     })
     
     observeEvent(input$scrna_start, {

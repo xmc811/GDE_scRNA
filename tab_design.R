@@ -1,4 +1,6 @@
 
+select_path <- "./data/"
+
 tab_scrna <- tabPanel(
     
     title = "scRNA-seq",
@@ -13,16 +15,16 @@ tab_scrna <- tabPanel(
             
             conditionalPanel(
                 condition = "input.data_source == 'Upload'",
-                fileInput(inputId = "scrna_input",
-                          label = NULL,
+                fileInput(inputId = "scrna_upload",
+                          label = "Upload local Seurat objects",
                           buttonLabel = "Browse..")
             ),
             
             conditionalPanel(
                 condition = "input.data_source == 'Select'",
                 selectInput(inputId = "scrna_select", 
-                            label = "RNA-seq results",
-                            choices = list.files("./large_data/"))
+                            label = "Select Seurat objects from path",
+                            choices = list.files(select_path))
             ),
             br(),
             
@@ -59,36 +61,42 @@ tab_scrna <- tabPanel(
                 id = "scrna_panel",
                 tabPanel(
                     value = 1,
+                    title = "Information",
+                    br(),
+                    verbatimTextOutput("object_info"),
+                ),
+                tabPanel(
+                    value = 2,
                     title = "Dimension Reduction",
                     br(),
                     plotOutput("scrna_dim_red")
                 ),
                 tabPanel(
-                    value = 2,
+                    value = 3,
                     title = "Statistics",
                     br(),
                     plotOutput("scrna_stat", width = "100%") 
                 ),
                 tabPanel(
-                    value = 3,
+                    value = 4,
                     title = "Measures - Boxplot",
                     br(),
                     plotOutput("scrna_mea_box")
                 ),
                 tabPanel(
-                    value = 4,
+                    value = 5,
                     title = "Measures - Dim",
                     br(),
                     plotOutput("scrna_mea_dim")
                 ),
                 tabPanel(
-                    value = 5,
+                    value = 6,
                     title = "Heatmap",
                     br(),
                     plotOutput("scrna_hm", width = "100%") 
                 ),
                 tabPanel(
-                    value = 6,
+                    value = 7,
                     title = "GO Analysis",
                     br(),
                     plotOutput("scrna_go")
