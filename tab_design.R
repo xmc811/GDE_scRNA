@@ -29,15 +29,8 @@ tab_scrna <- tabPanel(
             br(),
             
             conditionalPanel(
-                condition = "input.rna_panel != 0",
-                
-                splitLayout(numericInput("scrna_plot_height", 
-                                         "Plot Height (px)", 
-                                         value = 600),
-                            numericInput("scrna_plot_width", 
-                                         "Plot Width (px)", 
-                                         value = 800),
-                            cellWidths = c("50%", "50%"))
+                condition = "input.scrna_panel != 1",
+                uiOutput("plot_size")
             ),
             
             tags$head(tags$style(HTML("

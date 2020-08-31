@@ -128,6 +128,35 @@ server <- function(input, output, session) {
         width = scrna_plot_width)
     })
     
+    # Plot Size
+    
+    output$plot_size <- renderUI({
+        splitLayout(numericInput("plot_height", 
+                                 "Plot Height (px)", 
+                                 value = 600),
+                    numericInput("plot_width", 
+                                 "Plot Width (px)", 
+                                 value = 800),
+                    cellWidths = c("50%", "50%"))
+    })
+    
+    plot_height <- reactive({
+        validate(
+            need(input$plot_height < 4000, 
+                 "Plot height shouldn't exceed 4000px.")
+        )
+        return(input$plot_height)
+    })
+    
+    plot_width <- reactive({
+        validate(
+            need(input$plot_width < 4000, 
+                 "Plot width shouldn't exceed 4000px.")
+        )
+        return(input$plot_width)
+    })
+    
+    
 }
 
 shinyApp(ui = ui, server = server)
