@@ -29,6 +29,11 @@ tab_scrna <- tabPanel(
             br(),
             
             conditionalPanel(
+                condition = "input.scrna_panel == 2",
+                uiOutput("dim_var_ui")
+            ),
+            
+            conditionalPanel(
                 condition = "input.scrna_panel != 1",
                 uiOutput("plot_size")
             ),
@@ -62,7 +67,7 @@ tab_scrna <- tabPanel(
                     value = 2,
                     title = "Dimension Reduction",
                     br(),
-                    plotOutput("scrna_dim_red")
+                    plotOutput("dim_red")
                 ),
                 tabPanel(
                     value = 3,
