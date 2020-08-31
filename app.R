@@ -10,7 +10,7 @@ options(spinner.type = 8)
 ui <- navbarPage(
     
     theme = shinytheme("yeti"),
-    title = "Genomic Data Explorer",
+    title = "Single Cell Data Explorer",
     id = "tabs",
     
     tab_scrna,
@@ -24,11 +24,45 @@ ui <- navbarPage(
 # server function
 server <- function(input, output, session) {
     
-    # RNA
+    output$upload_panel <- renderUI({
+        
+        list(
+            h3("Single Cell Data Input"),
+            br(),
+            h4("Data Source"),
+            radioGroupButtons(inputId = "data_type",
+                              label = NULL,
+                              choices = c("10x Counts","Seurat Object"),
+                              justified = TRUE),
+            splitLayout(radioGroupButtons(inputId = "data_source",
+                                          label = NULL,
+                                          choices = c("Example","Upload","Select"),
+                                          justified = TRUE),
+                        actionButton(
+                            inputId = "data_start",
+                            label = "Upload",
+                            icon = icon("bar-chart"),
+                            style = "color: white; background-color: #0570b0;
+                            float:right; margin-right: 5px;"),
+                        
+                        cellWidths = c("67%", "33%"))
+        )
+    })
+    
+    scrna <- eventReactive(input$data_start, {
+        
+        if (input$data_source == "Example") {
+            
+            read_csv("./large_data/metadata.csv")
+            
+        } else if (input$count_source == "Upload") {
+            
+            read_csv(input$meta_input$datapath)
+            
+        } else {}
+    })
     
     observeEvent(input$scrna_start, {
-        
-        library(Scillus)
         
         scrna_input <- if(input$data_source == "Example") {
             reactive({readRDS("./large_data/scRNA_sample.rds")})

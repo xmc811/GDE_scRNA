@@ -2,8 +2,11 @@
 packages <- c("shiny", 
               "shinythemes", 
               "shinyWidgets",
-              "tidyverse", "magrittr","DT", 
+              "tidyverse", 
+              "magrittr",
+              "DT", 
               "RColorBrewer",
-              "fgsea")
+              "fgsea",
+              "Scillus")
 
 lapply(packages, require, character.only = TRUE)

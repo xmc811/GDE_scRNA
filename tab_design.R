@@ -8,22 +8,8 @@ tab_scrna <- tabPanel(
     sidebarLayout(
         
         sidebarPanel = sidebarPanel(
-            h3("scRNA-seq Data Analysis"),
-            br(),
             
-            h4("Data Source"),
-            splitLayout(radioGroupButtons(inputId = "data_source",
-                                          label = NULL,
-                                          choices = c("Example","Upload","Select"),
-                                          justified = TRUE),
-                        actionButton(
-                            inputId = "scrna_start",
-                            label = "Launch",
-                            icon = icon("bar-chart"),
-                            style = "color: white; background-color: #0570b0;
-                            float:right; margin-right: 5px;"),
-                        
-                        cellWidths = c("67%", "33%")),
+            uiOutput("upload_panel"),
             
             conditionalPanel(
                 condition = "input.data_source == 'Upload'",
