@@ -145,11 +145,13 @@ server <- function(input, output, session) {
         )
         if (input$dim_var_spl == "No Split") {
             plot_scdata(scrna(), 
-                        color_by = input$dim_var_col)
+                        color_by = input$dim_var_col,
+                        pal_setup = input$pal_cat)
         } else {
             plot_scdata(scrna(), 
                         color_by = input$dim_var_col,
-                        split_by = input$dim_var_spl)
+                        split_by = input$dim_var_spl,
+                        pal_setup = input$pal_cat)
         }
         
     }, 
