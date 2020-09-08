@@ -148,47 +148,7 @@ server <- function(input, output, session) {
     width = plot_width,
     height = plot_height)
     
-    observeEvent(input$scrna_start, {
-        
-        scrna_input <- if(input$data_source == "Example") {
-            reactive({readRDS("./large_data/scRNA_sample.rds")})
-        } else if (input$data_source == "Upload"){
-            reactive({
-                validate(
-                    need(input$scrna_input, 
-                         "Please Upload Data")
-                )
-                readRDS(input$scrna_input$datapath)})
-        } else {
-            reactive({
-                readRDS(paste0("./large_data/",input$scrna_select))})
-        }
-        
-        output$scrna_stat <- renderPlot({
-            plot_stat(scrna_input(), plot_type = "prop_fill")
-        }, 
-        height = scrna_plot_height, 
-        width = scrna_plot_width)
-        
-        output$scrna_mea_box <- renderPlot({
-            plot_measure(scrna_input(), 
-                         measures = c("nFeature_RNA","nCount_RNA","percent.mt","KRT14"), 
-                         group_by = "seurat_clusters")
-        }, 
-        height = scrna_plot_height, 
-        width = scrna_plot_width)
-        
-        output$scrna_mea_dim <- renderPlot({
-            plot_measure_dim(scrna_input(), 
-                             measures = c("nFeature_RNA","nCount_RNA","percent.mt","KRT14"))
-        }, 
-        height = scrna_plot_height, 
-        width = scrna_plot_width)
-    })
-    
-    
-    
-    
+
 }
 
 shinyApp(ui = ui, server = server)
