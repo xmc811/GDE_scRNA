@@ -34,6 +34,11 @@ tab_scrna <- tabPanel(
             ),
             
             conditionalPanel(
+                condition = "input.scrna_panel == 2",
+                uiOutput("color_ui")
+            ),
+            
+            conditionalPanel(
                 condition = "input.scrna_panel != 1",
                 uiOutput("plot_size")
             ),

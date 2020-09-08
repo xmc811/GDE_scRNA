@@ -101,6 +101,26 @@ server <- function(input, output, session) {
         return(input$plot_width)
     })
     
+    output$color_ui <- renderUI({
+        validate(
+            need(try(scrna()), "")
+        )
+        list(
+            splitLayout(selectInput(inputId = "pal_cat", 
+                                    label = "Categorical Palette",
+                                    choices = rownames(brewer.pal.info[brewer.pal.info$category == "qual",]),
+                                    selected = "Set2"),
+                        selectInput(inputId = "pal_con", 
+                                    label = "Continuous Palette",
+                                    choices = rownames(brewer.pal.info[brewer.pal.info$category != "qual",]),
+                                    selected = "Spectral")),
+            materialSwitch(
+                inputId = "pal_dir",
+                label = "Reverse Scale Color Direction",
+                value = FALSE,
+                right = TRUE)
+        )
+    })
     
     # Dimension Reduction Plot
     
