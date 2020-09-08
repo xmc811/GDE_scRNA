@@ -143,12 +143,19 @@ server <- function(input, output, session) {
         validate(
             need(try(scrna()), "No Seurat object. Plot not available.")
         )
-        plot_scdata(scrna(), color_by = input$dim_var_col)
+        if (input$dim_var_spl == "No Split") {
+            plot_scdata(scrna(), 
+                        color_by = input$dim_var_col)
+        } else {
+            plot_scdata(scrna(), 
+                        color_by = input$dim_var_col,
+                        split_by = input$dim_var_spl)
+        }
+        
     }, 
     width = plot_width,
     height = plot_height)
     
-
 }
 
 shinyApp(ui = ui, server = server)
