@@ -1,6 +1,7 @@
 
 source("loading.R")
 source("tab_design.R")
+source("helpers.R")
 
 options(shiny.maxRequestSize = 100 * 1024 ^ 2)
 options(spinner.color = "#3182bd")
@@ -143,17 +144,10 @@ server <- function(input, output, session) {
         validate(
             need(try(scrna()), "No Seurat object. Plot not available.")
         )
-        if (input$dim_var_spl == "No Split") {
-            plot_scdata(scrna(), 
-                        color_by = input$dim_var_col,
-                        pal_setup = input$pal_cat)
-        } else {
-            plot_scdata(scrna(), 
-                        color_by = input$dim_var_col,
-                        split_by = input$dim_var_spl,
-                        pal_setup = input$pal_cat)
-        }
-        
+        plot_scdata(scrna(), 
+                    color_by = input$dim_var_col,
+                    split_by = input$dim_var_spl,
+                    pal_setup = input$pal_cat)
     }, 
     width = plot_width,
     height = plot_height)
