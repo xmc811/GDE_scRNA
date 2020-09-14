@@ -34,6 +34,11 @@ tab_scrna <- tabPanel(
             ),
             
             conditionalPanel(
+                condition = "input.scrna_panel == 3",
+                uiOutput("dim_ms_ui")
+            ),
+            
+            conditionalPanel(
                 condition = "input.scrna_panel == 2",
                 uiOutput("color_ui")
             ),
@@ -70,39 +75,33 @@ tab_scrna <- tabPanel(
                 ),
                 tabPanel(
                     value = 2,
-                    title = "Dimension Reduction",
+                    title = "Dim Reduction",
                     br(),
                     plotOutput("dim_red")
                 ),
                 tabPanel(
                     value = 3,
+                    title = "Dim Reduction - Measures",
+                    br(),
+                    plotOutput("dim_red_ms")
+                ),
+                tabPanel(
+                    value = 4,
                     title = "Statistics",
                     br(),
                     plotOutput("scrna_stat", width = "100%") 
                 ),
                 tabPanel(
-                    value = 4,
+                    value = 5,
                     title = "Measures - Boxplot",
                     br(),
                     plotOutput("scrna_mea_box")
-                ),
-                tabPanel(
-                    value = 5,
-                    title = "Measures - Dim",
-                    br(),
-                    plotOutput("scrna_mea_dim")
                 ),
                 tabPanel(
                     value = 6,
                     title = "Heatmap",
                     br(),
                     plotOutput("scrna_hm", width = "100%") 
-                ),
-                tabPanel(
-                    value = 7,
-                    title = "GO Analysis",
-                    br(),
-                    plotOutput("scrna_go")
                 )
             )
         )

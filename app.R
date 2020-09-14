@@ -152,6 +152,57 @@ server <- function(input, output, session) {
     width = plot_width,
     height = plot_height)
     
+    output$dim_ms_ui <- renderUI({
+        validate(
+            need(!is.null(scrna()), "")
+        )
+        list(
+            h5("Measure Variables"),
+            checkboxGroupButtons(inputId = "dim_ms_vars",
+                                label = NULL,
+                                choices = get_num_vars(scrna()),
+                                checkIcon = list(
+                                    yes = tags$i(class = "fa fa-check-square", 
+                                                 style = "color: steelblue"),
+                                    no = tags$i(class = "fa fa-square-o", 
+                                                style = "color: steelblue"))
+            ),
+            h5("Genes"),
+            splitLayout(textInput("dim_ms_genes", 
+                                  label = NULL, 
+                                  value = ""),
+                        actionButton(
+                            inputId = "dim_ms_var_read",
+                            label = "Plot",
+                            icon = icon("check"),
+                            style = "color: white; background-color: #737373; float:right; margin-right: 5px;"),
+                        cellWidths = c("75%", "25%")),
+            selectInput(inputId = "dim_ms_spl", 
+                        label = "Variable for Splitting",
+                        selected = "No Split",
+                        choices = c(get_char_vars(scrna()), "No Split")
+                        )
+            )
+    })
+    
+    dim_ms_alls <- eventReactive(
+        eventExpr = input$dim_ms_var_read,
+        {
+         c(input$dim_ms_vars, parse_genes(input$dim_ms_genes))   
+        }
+    )
+    
+    output$dim_red_ms <- renderPlot({
+        validate(
+            need(try(scrna()), "No Seurat object. Plot not available."),
+            need(try(dim_ms_alls()), "No Measure Variables specified.")
+        )
+        plot_measure_dim(scrna(), 
+                         dim_ms_alls(),
+                         input$dim_ms_spl)
+    }, 
+    width = plot_width,
+    height = plot_height)
 }
 
 shinyApp(ui = ui, server = server)
